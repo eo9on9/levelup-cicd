@@ -6,7 +6,7 @@ describe('Button', () => {
   it('should render', () => {
     const { getByRole } = render(<Button>Click me</Button>)
 
-    getByRole('button', { name: 'Click me' })
+    expect(getByRole('button', { name: 'Click me' })).toBeInTheDocument()
   })
 
   it('should call onClick when clicked', async () => {
