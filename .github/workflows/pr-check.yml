@@ -70,3 +70,8 @@ jobs:
       # 빌드 없이 타입 오류만 검증
       - name: Run TypeScript type check
         run: pnpm run type-check
+
+      # 테스트 실행
+      # 단위/통합 테스트 검증
+      - name: Run tests
+        run: pnpm test
