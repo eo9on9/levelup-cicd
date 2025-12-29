@@ -1,7 +1,7 @@
 export const HomePage = () => {
   const a = 'asdfasdf'
 
-  console.log(a)
+  console.log(a, 'ewew')
 
   return (
     <div>
