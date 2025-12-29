@@ -14,7 +14,12 @@
     "jsx": "react-jsx",
     "incremental": true,
     "paths": {
-      "@/*": ["./*"]
+      "@app/*": ["./sources/app/*"],
+      "@pages/*": ["./sources/pages/*"],
+      "@widgets/*": ["./sources/widgets/*"],
+      "@features/*": ["./sources/features/*"],
+      "@entities/*": ["./sources/entities/*"],
+      "@shared/*": ["./sources/shared/*"]
     }
   },
   "include": [
