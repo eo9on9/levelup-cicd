@@ -20,7 +20,8 @@
       "@features/*": ["./sources/features/*"],
       "@entities/*": ["./sources/entities/*"],
       "@shared/*": ["./sources/shared/*"]
-    }
+    },
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
   "include": [
     "next-env.d.ts",
