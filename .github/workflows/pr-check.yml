@@ -47,11 +47,27 @@ jobs:
         run: |
           echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
+      # pnpm store 디렉터리를 GitHub 캐시로 관리
+      # 이전 CI 실행에서 저장된 의존성 캐시를 복원하거나,
+      # 현재 실행이 끝난 후 새 캐시를 저장함
       - name: Setup pnpm cache
         uses: actions/cache@v4
         with:
+          # 캐시할 실제 파일 경로
+          # pnpm이 다운로드한 패키지들이 저장되는 store 디렉터리
+          # (OS / pnpm 버전에 따라 경로가 달라질 수 있어
+          #  이전 step에서 동적으로 조회한 값을 사용)
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          # 캐시를 식별하는 고유 키
+          # - runner.os: OS별로 캐시 분리 (Linux / macOS / Windows)
+          # - pnpm-store: 캐시 종류 식별자
+          # - hashFiles('**/pnpm-lock.yaml'):
+          #   lockfile 내용이 바뀌면 해시가 달라져
+          #   의존성 변경 시 캐시가 자동으로 무효화됨
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          # 정확한 key가 없을 때 사용할 보조 키
+          # 동일한 OS의 이전 pnpm store 캐시라도 우선 복원해서
+          # 전체 다운로드를 줄이고 CI 속도를 개선
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
