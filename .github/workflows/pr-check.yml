@@ -1,6 +1,6 @@
 # GitHub Actions 워크플로우 이름
 # PR 화면 / Actions 탭에서 표시됨
-name: CI - Lint
+name: PR Check
 
 # 워크플로우가 실행되는 트리거 조건
 on:
@@ -8,8 +8,8 @@ on:
   pull_request:
     # main 브랜치로 들어가는 PR만 대상으로 함
     # (모든 PR에서 돌리고 싶으면 branches 조건 제거)
-    branches:
-      - main
+    # branches:
+    #   - main
 
 # 실행할 작업(job) 정의
 jobs:
@@ -35,8 +35,25 @@ jobs:
 
       # pnpm 설치
       # corepack은 Node 16+ 에 기본 포함
+      # cache를 사용하려면 pnpm을 먼저 활성화해야 함
       - name: Enable pnpm
         run: corepack enable
+
+      # pnpm 캐시 설정
+      # 의존성 설치 속도 향상
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       # 의존성 설치
       # CI 환경에서는 항상 npm ci 사용 (lockfile 기준, 재현성 보장)
@@ -48,3 +65,8 @@ jobs:
       # 린트 에러 발생 시 PR 체크 실패
       - name: Run ESLint
         run: pnpm run lint
+
+      # TypeScript 타입 체크
+      # 빌드 없이 타입 오류만 검증
+      - name: Run TypeScript type check
+        run: pnpm run type-check
