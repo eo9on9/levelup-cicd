@@ -21,7 +21,7 @@ jobs:
 
     # job 안에서 순차적으로 실행될 step 목록
     steps:
-      # GitHub 저장소의 코드를 러너로 체크아웃
+      # GitHub 저장소의 코드를 러너로 체크아웃(복사)
       # 이 단계가 없으면 코드 자체가 없음
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -36,7 +36,7 @@ jobs:
       # pnpm 설치
       # corepack은 Node 16+ 에 기본 포함
       - name: Enable pnpm
-        run: corepack enable pnpm
+        run: corepack enable
 
       # 의존성 설치
       # CI 환경에서는 항상 npm ci 사용 (lockfile 기준, 재현성 보장)
