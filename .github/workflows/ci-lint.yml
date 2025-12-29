@@ -32,6 +32,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22.21.0
+          cache: pnpm
 
       # pnpm 설치
       # corepack은 Node 16+ 에 기본 포함
