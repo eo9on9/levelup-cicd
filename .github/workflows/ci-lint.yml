@@ -33,6 +33,7 @@ jobs:
         with:
           node-version: 22.21.0
           cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       # pnpm 설치
       # corepack은 Node 16+ 에 기본 포함
