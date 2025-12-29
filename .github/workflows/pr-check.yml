@@ -14,7 +14,7 @@ on:
 # 실행할 작업(job) 정의
 jobs:
   # job의 식별자 (자유롭게 이름 지정 가능)
-  lint:
+  pr-check:
     # 이 job을 실행할 GitHub 제공 러너(OS)
     # 프론트엔드 CI의 기본값
     runs-on: ubuntu-latest
